@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLOW IT - 免责声明</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #1e293b;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .nav a:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            padding-bottom: 100px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            color: #e2e8f0;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+
+        .content-card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .content-card h2 {
+            color: #60a5fa;
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .content-card h3 {
+            color: #94a3b8;
+            font-size: 15px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        .content-card p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .content-card ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .content-card li {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            color: #fbbf24;
+            font-weight: 500;
+        }
+
+        .contact-info {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid #3b82f6;
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+        }
+
+        .contact-info p {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .contact-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 30px;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #2563eb;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 15px;
+            background: #020617;
+            color: #64748b;
+            font-size: 13px;
+            border-top: 1px solid #1e293b;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 12px 15px;
+            }
+            
+            .nav {
+                display: none;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="logo">GLOW IT</a>
+        <div class="nav">
+            <a href="index.html">首页</a>
+            <a href="git-tech.html">关于我们</a>
+            <a href="user-center.html">用户中心</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">免责声明</h1>
+        <p class="page-subtitle">Last updated: 2026年5月4日</p>
+
+        <div class="content-card">
+            <h2>1. 网站性质</h2>
+            <p>GLOW IT（以下简称"本网站"）是一个非盈利性的学术科普研究平台，致力于代码知识的研究与普及。本网站上的所有内容仅供学习和研究目的使用。</p>
+        </div>
+
+        <div class="content-card">
+            <h2>2. 内容免责</h2>
+            <p>本网站提供的内容、代码示例、教程等均由热心用户贡献或来源于公开网络资源。我们已尽力确保内容的准确性和时效性，但不保证其完全准确无误。</p>
+            <h3>2.1 信息准确性</h3>
+            <p>本网站不对任何因使用本站内容而导致的直接或间接损失承担责任。用户在使用任何代码或信息前应自行验证其正确性。</p>
+            <h3>2.2 第三方链接</h3>
+            <p>本网站可能包含指向第三方网站的链接。我们对这些第三方网站的内容、隐私政策或安全性不承担任何责任。</p>
+        </div>
+
+        <div class="content-card">
+            <h2>3. 用户行为</h2>
+            <p>用户在使用本网站时应遵守相关法律法规，不得利用本网站进行任何违法活动。</p>
+            <ul>
+                <li>不得上传或传播有害、违法、侵权内容</li>
+                <li>不得恶意攻击或破坏网站服务</li>
+                <li>不得滥用网站资源</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h2>4. 版权声明</h2>
+            <p>本网站尊重知识产权。对于用户贡献的内容，用户应确保拥有相应的版权或获得授权。如有侵权，请联系我们删除。</p>
+            <p>本网站原创内容的版权归 GLOW IT 所有，未经许可不得擅自转载。</p>
+        </div>
+
+        <div class="content-card">
+            <h2>5. 免责范围</h2>
+            <p class="highlight">以下情况，本网站不承担责任：</p>
+            <ul>
+                <li>因不可抗力（如自然灾害、网络故障等）导致的服务中断</li>
+                <li>用户自身设备或网络问题导致的访问失败</li>
+                <li>用户不当使用或误操作导致的数据丢失或损坏</li>
+                <li>因用户个人信息泄露导致的损失（除非证明是本网站的安全漏洞所致）</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h2>6. 条款变更</h2>
+            <p>本免责声明可能会不定期更新。更新后的声明将在本页面发布，不再另行通知。用户应定期查看本页面以了解最新条款。</p>
+        </div>
+
+        <div class="contact-info">
+            <p><strong>联系我们：</strong></p>
+            <p>如有任何疑问或建议，请到Github至：xiaohehe123666        </div>
+
+        <a href="javascript:history.back()" class="back-btn">← 返回上一页</a>
+    </div>
+
+    <footer>
+        © 2026 GLOW IT 信息技术研创社 非盈利学术科普研究团体
+    </footer>
+</body>
+</html>

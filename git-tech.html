@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLOW IT - 代码知识研究与科普</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #333;
+            --secondary-color: #2563eb;
+            --accent-color: #10b981;
+            --text-light: #64748b;
+            --bg-white: #ffffff;
+            --bg-gray: #f8fafc;
+            --bg-dark: #0f172a;
+            --bg-card: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-color);
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        nav .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+            height: 52px;
+        }
+
+        nav .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav .logo span {
+            color: #ff6b9d;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        nav ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #fff;
+        }
+
+        nav .nav-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        nav .nav-actions .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        nav .nav-actions .btn-secondary {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        nav .nav-actions .btn-secondary:hover {
+            color: #fff;
+        }
+
+        nav .nav-actions .btn-primary {
+            background: var(--accent-color);
+            color: #fff;
+        }
+
+        nav .nav-actions .btn-primary:hover {
+            background: #059669;
+        }
+
+        /* Hero区域 */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            padding: 140px 0 120px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-color);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .tagline {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .tagline strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 80px;
+        }
+
+        .hero .cta-btn {
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero .cta-btn.primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        }
+
+        .hero .cta-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 40px rgba(37, 99, 235, 0.4);
+        }
+
+        .hero .cta-btn.secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero .cta-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* 代码展示卡片 */
+        .code-showcase {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: left;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .code-dot.red { background: #ff5f56; }
+        .code-dot.yellow { background: #ffbd2e; }
+        .code-dot.green { background: #27c93f; }
+
+        .code-lang {
+            margin-left: auto;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .code-content {
+            padding: 24px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .code-content .keyword { color: #c792ea; }
+        .code-content .string { color: #c3e88d; }
+        .code-content .comment { color: #546e7a; }
+        .code-content .function { color: #82aaff; }
+        .code-content .number { color: #f78c6c; }
+
+        /* 特色区域 */
+        .features {
+            padding: 100px 20px;
+            background: var(--bg-gray);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .features .subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 80px;
+        }
+
+        .features-grid {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-card .icon-wrapper {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 24px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .feature-card:nth-child(1) .icon-wrapper { background: rgba(37, 99, 235, 0.1); }
+        .feature-card:nth-child(2) .icon-wrapper { background: rgba(16, 185, 129, 0.1); }
+        .feature-card:nth-child(3) .icon-wrapper { background: rgba(245, 158, 11, 0.1); }
+        .feature-card:nth-child(4) .icon-wrapper { background: rgba(139, 92, 246, 0.1); }
+        .feature-card:nth-child(5) .icon-wrapper { background: rgba(236, 72, 153, 0.1); }
+        .feature-card:nth-child(6) .icon-wrapper { background: rgba(6, 182, 212, 0.1); }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* 资源展示区 */
+        .resources {
+            padding: 100px 20px;
+            background: var(--bg-white);
+        }
+
+        .resources-header {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            text-align: center;
+        }
+
+        .resources-header h2 {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .resources-header p {
+            font-size: 18px;
+            color: var(--text-light);
+        }
+
+        .resources-grid {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .resource-card {
+            background: var(--bg-gray);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .resource-card .resource-image {
+            height: 180px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .resource-card .resource-content {
+            padding: 24px;
+        }
+
+        .resource-card .category {
+            font-size: 12px;
+            color: var(--secondary-color);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .resource-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .resource-card p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .resource-card .meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .resource-card .meta .author {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .resource-card .meta .free-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-color);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* 学习路径 */
+        .learning-path {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+        }
+
+        .learning-path h2 {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .learning-path .subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 80px;
+        }
+
+        .path-steps {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+        }
+
+        .path-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .path-step::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), transparent);
+            z-index: 0;
+        }
+
+        .path-step:last-child::before {
+            display: none;
+        }
+
+        .path-step .step-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .path-step h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .path-step p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        /* CTA区域 */
+        .cta {
+            padding: 100px 20px;
+            background: var(--bg-gray);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border-radius: 24px;
+            padding: 60px 40px;
+            color: #fff;
+        }
+
+        .cta-container h2 {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .cta-container p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 32px;
+        }
+
+        .cta-container .cta-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background: #fff;
+            color: #2563eb;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .cta-container .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+        }
+
+        /* 页脚 */
+        footer {
+            background: var(--bg-dark);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 60px 20px;
+        }
+
+        .footer-container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .footer-logo span {
+            color: #ff6b9d;
+        }
+
+        .footer-about {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.7;
+        }
+
+        .footer-links h4 {
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links ul li a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-bottom p {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        .footer-bottom .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-bottom .social-links a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-bottom .social-links a:hover {
+            color: #fff;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero .tagline {
+                font-size: 18px;
+            }
+
+            .features h2,
+            .resources-header h2,
+            .learning-path h2 {
+                font-size: 28px;
+            }
+
+            .cta-container {
+                padding: 40px 24px;
+            }
+
+            .cta-container h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo"><span>GLOW</span> IT</div>
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="#features">特色</a></li>
+                <li><a href="#resources">资源</a></li>
+                <li><a href="#learning">学习路径</a></li>
+                <li><a href="#about">关于</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="user-center.html" class="btn btn-secondary">登录</a>
+                <a href="edit-profile.html" class="btn btn-primary">免费注册</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero区域 -->
+    <section class="hero">
+        <div class="badge">🎉 完全免费 · 知识共享</div>
+        <h1>探索<span>代码世界</span>的无限可能</h1>
+        <p class="tagline">专注于<strong>代码知识研究与科普</strong>，为开发者提供免费、优质的学习资源</p>
+        <div class="cta-buttons">
+            <a href="index.html" class="cta-btn primary">开始学习 →</a>
+            <a href="#features" class="cta-btn secondary">了解更多</a>
+        </div>
+        
+        <!-- 代码展示 -->
+        <div class="code-showcase">
+            <div class="code-header">
+                <div class="code-dot red"></div>
+                <div class="code-dot yellow"></div>
+                <div class="code-dot green"></div>
+                <span class="code-lang">Python</span>
+            </div>
+            <div class="code-content">
+                <span class="keyword">def</span> <span class="function">explore_code</span>(knowledge):<br>
+                &nbsp;&nbsp;<span class="comment"># 探索代码知识的无限可能</span><br>
+                &nbsp;&nbsp;if knowledge <span class="keyword">is</span> <span class="keyword">None</span>:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="string">"开始你的学习之旅"</span><br>
+                &nbsp;&nbsp;<span class="keyword">return</span> <span class="string">"知识 + "</span> + str(<span class="number">100</span>) + <span class="string">"% 热爱"</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特色区域 -->
+    <section class="features" id="features">
+        <h2>为什么选择 GLOW IT?</h2>
+        <p class="subtitle">我们致力于打造最优质的免费代码学习平台</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon-wrapper">📚</div>
+                <h3>丰富的学习资源</h3>
+                <p>涵盖Python、Java、前端、算法等多个领域的高质量教程和实战项目</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-wrapper">💯</div>
+                <h3>完全免费</h3>
+                <p>所有学习内容永久免费开放，无广告、无订阅，纯粹的知识分享</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-wrapper">👥</div>
+                <h3>活跃社区</h3>
+                <p>加入开发者社区，与志同道合的小伙伴一起交流学习、共同进步</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-wrapper">🔍</div>
+                <h3>深度科普</h3>
+                <p>不仅教你怎么写，更告诉你为什么这么写，深入理解底层原理</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-wrapper">🚀</div>
+                <h3>实战驱动</h3>
+                <p>理论与实践相结合，通过真实项目掌握编程技能</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-wrapper">🔓</div>
+                <h3>开源精神</h3>
+                <p>倡导开源文化，鼓励知识共享，共建技术生态</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 资源展示区 -->
+    <section class="resources" id="resources">
+        <div class="resources-header">
+            <h2>精选学习资源</h2>
+            <p>由社区贡献的优质内容，全部免费开放</p>
+        </div>
+        <div class="resources-grid">
+            <div class="resource-card">
+                <div class="resource-image">🐍</div>
+                <div class="resource-content">
+                    <div class="category">Python</div>
+                    <h3>Python从入门到精通</h3>
+                    <p>系统学习Python编程语言，涵盖基础语法、面向对象、数据分析等</p>
+                    <div class="meta">
+                        <span class="author">作者: CodeMaster</span>
+                        <span class="free-badge">免费</span>
+                    </div>
+                </div>
+            </div>
+            <div class="resource-card">
+                <div class="resource-image">⚛️</div>
+                <div class="resource-content">
+                    <div class="category">前端</div>
+                    <h3>React实战项目教程</h3>
+                    <p>从零开始构建现代化Web应用，掌握React核心概念和最佳实践</p>
+                    <div class="meta">
+                        <span class="author">作者: FrontEndDev</span>
+                        <span class="free-badge">免费</span>
+                    </div>
+                </div>
+            </div>
+            <div class="resource-card">
+                <div class="resource-image">📊</div>
+                <div class="resource-content">
+                    <div class="category">算法</div>
+                    <h3>数据结构与算法精讲</h3>
+                    <p>深入理解常用数据结构和算法，提升编程思维能力</p>
+                    <div class="meta">
+                        <span class="author">作者: AlgoExpert</span>
+                        <span class="free-badge">免费</span>
+                    </div>
+                </div>
+            </div>
+            <div class="resource-card">
+                <div class="resource-image">☁️</div>
+                <div class="resource-content">
+                    <div class="category">云原生</div>
+                    <h3>Docker与Kubernetes入门</h3>
+                    <p>学习容器化技术，掌握现代云原生应用部署和管理</p>
+                    <div class="meta">
+                        <span class="author">作者: CloudNative</span>
+                        <span class="free-badge">免费</span>
+                    </div>
+                </div>
+            </div>
+            <div class="resource-card">
+                <div class="resource-image">🔐</div>
+                <div class="resource-content">
+                    <div class="category">安全</div>
+                    <h3>Web安全入门指南</h3>
+                    <p>了解常见Web安全漏洞，学习防护策略和最佳实践</p>
+                    <div class="meta">
+                        <span class="author">作者: SecurityPro</span>
+                        <span class="free-badge">免费</span>
+                    </div>
+                </div>
+            </div>
+            <div class="resource-card">
+                <div class="resource-image">🤖</div>
+                <div class="resource-content">
+                    <div class="category">AI</div>
+                    <h3>机器学习入门实战</h3>
+                    <p>从理论到实践，掌握机器学习基础算法和应用</p>
+                    <div class="meta">
+                        <span class="author">作者: AIMaster</span>
+                        <span class="free-badge">免费</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 学习路径 -->
+    <section class="learning-path" id="learning">
+        <h2>学习路径</h2>
+        <p class="subtitle">循序渐进，系统掌握编程技能</p>
+        <div class="path-steps">
+            <div class="path-step">
+                <div class="step-number">1</div>
+                <h3>基础入门</h3>
+                <p>学习编程基础概念，掌握一门编程语言</p>
+            </div>
+            <div class="path-step">
+                <div class="step-number">2</div>
+                <h3>进阶提升</h3>
+                <p>深入学习数据结构、算法和设计模式</p>
+            </div>
+            <div class="path-step">
+                <div class="step-number">3</div>
+                <h3>实战项目</h3>
+                <p>参与真实项目，积累开发经验</p>
+            </div>
+            <div class="path-step">
+                <div class="step-number">4</div>
+                <h3>社区贡献</h3>
+                <p>分享知识，帮助他人，共同成长</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA区域 -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2>开启你的编程之旅</h2>
+            <p>加入GLOW IT，免费获取海量学习资源，与数万开发者一起成长</p>
+            <a href="edit-profile.html" class="cta-btn">立即免费注册</a>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-logo"><span>GLOW</span> IT</div>
+                    <p class="footer-about">专注于代码知识研究与科普，为开发者提供免费、优质的学习资源。让编程学习更简单、更有趣。</p>
+                </div>
+                <div class="footer-links">
+                    <h4>学习资源</h4>
+                    <ul>
+                        <li><a href="#">Python教程</a></li>
+                        <li><a href="#">前端开发</a></li>
+                        <li><a href="#">算法学习</a></li>
+                        <li><a href="#">实战项目</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>社区</h4>
+                    <ul>
+                        <li><a href="#">论坛</a></li>
+                        <li><a href="#">博客</a></li>
+                        <li><a href="#">开源项目</a></li>
+                        <li><a href="#">贡献指南</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>关于</h4>
+                    <ul>
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="disclaimer.html">免责声明</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                        <li><a href="#">服务条款</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 GLOW IT. 保留所有权利。</p>
+                <div class="social-links">
+                    <a href="#">GitHub</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Discord</a>
+                    <a href="#">微信</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

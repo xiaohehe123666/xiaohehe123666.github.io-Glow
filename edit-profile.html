@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIT Glow - 编辑资料</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft Yahei", sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(30, 41, 59, 0.95);
+            border-radius: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            color: #60a5fa;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .header p {
+            color: #64748b;
+            font-size: 14px;
+        }
+        .avatar-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        .avatar-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #3b82f6;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .avatar-preview:hover {
+            transform: scale(1.05);
+        }
+        .avatar-btn {
+            padding: 10px 25px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            color: #60a5fa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .avatar-btn:hover {
+            background: rgba(59, 130, 246, 0.3);
+        }
+        #avatar-upload {
+            display: none;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group label {
+            display: block;
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 15px;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: #3b82f6;
+        }
+        .form-group input::placeholder {
+            color: #475569;
+        }
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 15px;
+            font-family: inherit;
+            min-height: 100px;
+            resize: vertical;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+        .form-group textarea:focus {
+            border-color: #3b82f6;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+        .btn-secondary:hover {
+            background: rgba(148, 163, 184, 0.1);
+            color: #e2e8f0;
+        }
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            text-align: center;
+        }
+        .message.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            display: block;
+        }
+        .message.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            display: block;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #64748b;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✏️ 编辑资料</h1>
+            <p>修改您的个人信息</p>
+        </div>
+
+        <div class="message" id="message"></div>
+
+        <div class="avatar-section">
+            <img id="avatar-preview" src="" alt="头像" class="avatar-preview" onclick="triggerUpload()">
+            <p style="color:#94a3b8;font-size:14px;margin-bottom:10px;">点击头像更换</p>
+            <input type="file" id="avatar-upload" accept="image/*" onchange="uploadAvatar()">
+            <button class="avatar-btn" onclick="triggerUpload()">选择头像</button>
+        </div>
+
+        <form id="profile-form">
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" id="username" placeholder="请输入用户名">
+            </div>
+
+            <div class="form-group">
+                <label for="email">邮箱</label>
+                <input type="email" id="email" placeholder="请输入邮箱地址">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="gender">性别</label>
+                    <select id="gender" style="width:100%;padding:14px;background:rgba(0,0,0,0.3);border:1px solid rgba(148,163,184,0.2);border-radius:10px;color:#e2e8f0;font-size:15px;outline:none;">
+                        <option value="">请选择</option>
+                        <option value="male">男</option>
+                        <option value="female">女</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="birthday">生日</label>
+                    <input type="date" id="birthday" style="width:100%;padding:14px;background:rgba(0,0,0,0.3);border:1px solid rgba(148,163,184,0.2);border-radius:10px;color:#e2e8f0;font-size:15px;outline:none;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="bio">个人简介</label>
+                <textarea id="bio" placeholder="介绍一下你自己..."></textarea>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" onclick="goBack()">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveProfile()">保存修改</button>
+            </div>
+        </form>
+
+        <div class="back-link">
+            <a href="index.html">← 返回首页</a>
+        </div>
+
+        <footer>
+            © 2026 GIT Glow信息技术研创社
+        </footer>
+    </div>
+
+    <script>
+        var defaultAvatar = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2364748b"%3E%3Cpath d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/%3E%3C/svg%3E';
+
+        function init() {
+            var currentUser = JSON.parse(localStorage.getItem('gitglow_current_user') || 'null');
+            if(!currentUser) {
+                showMessage('请先登录', 'error');
+                setTimeout(function() {
+                    window.location.href = 'auth.html';
+                }, 1500);
+                return;
+            }
+
+            var avatar = localStorage.getItem('gitglow_avatar_' + currentUser.id) || defaultAvatar;
+            document.getElementById('avatar-preview').src = avatar;
+            document.getElementById('username').value = currentUser.username || '';
+            document.getElementById('email').value = currentUser.email || '';
+            document.getElementById('gender').value = currentUser.gender || '';
+            document.getElementById('birthday').value = currentUser.birthday || '';
+            document.getElementById('bio').value = currentUser.bio || '';
+        }
+
+        function triggerUpload() {
+            document.getElementById('avatar-upload').click();
+        }
+
+        function uploadAvatar() {
+            var file = document.getElementById('avatar-upload').files[0];
+            if(file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var avatarData = e.target.result;
+                    document.getElementById('avatar-preview').src = avatarData;
+                    
+                    var currentUser = JSON.parse(localStorage.getItem('gitglow_current_user') || 'null');
+                    if(currentUser) {
+                        localStorage.setItem('gitglow_avatar_' + currentUser.id, avatarData);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveProfile() {
+            var currentUser = JSON.parse(localStorage.getItem('gitglow_current_user') || 'null');
+            if(!currentUser) return;
+
+            var username = document.getElementById('username').value.trim();
+            var email = document.getElementById('email').value.trim();
+            var gender = document.getElementById('gender').value;
+            var birthday = document.getElementById('birthday').value;
+            var bio = document.getElementById('bio').value.trim();
+
+            if(!username || !email) {
+                showMessage('请填写用户名和邮箱', 'error');
+                return;
+            }
+
+            var users = JSON.parse(localStorage.getItem('gitglow_users') || '[]');
+            var userIndex = users.findIndex(function(u) { return u.id === currentUser.id; });
+
+            if(userIndex !== -1) {
+                users[userIndex].username = username;
+                users[userIndex].email = email;
+                users[userIndex].gender = gender;
+                users[userIndex].birthday = birthday;
+                users[userIndex].bio = bio;
+                localStorage.setItem('gitglow_users', JSON.stringify(users));
+
+                currentUser.username = username;
+                currentUser.email = email;
+                currentUser.gender = gender;
+                currentUser.birthday = birthday;
+                currentUser.bio = bio;
+                localStorage.setItem('gitglow_current_user', JSON.stringify(currentUser));
+
+                showMessage('保存成功！正在返回首页...', 'success');
+                setTimeout(function() {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } else {
+                showMessage('保存失败', 'error');
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function showMessage(msg, type) {
+            var message = document.getElementById('message');
+            message.textContent = msg;
+            message.className = 'message ' + type;
+        }
+
+        init();
+    </script>
+</body>
+</html>
